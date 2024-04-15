@@ -14,7 +14,7 @@ export default function () {
     const [formData, setFormData] = useState({
         search: "",
         so: "",
-        sb: "name",
+        sb: "",
         page: 1,
     });
 

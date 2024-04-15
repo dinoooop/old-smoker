@@ -1,8 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import "./style.css";
-import "./responsive.css";
-import LoginScreen from "./auth/LoginScreen";
-import ProjectIndexScreen from "./project/ProjectIndexScreen";
+import LoginScreen from "./front/auth/LoginScreen";
+import ProjectIndexScreen from "./admin/project/ProjectIndexScreen";
 
 function App() {
   return (

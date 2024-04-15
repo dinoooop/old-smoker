@@ -3,6 +3,8 @@ import SideNav from '../components/SideNav';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import ProfilePic from '../components/ProfilePic';
+import "../../styles/admin.css";
+import "../../styles/responsive.css";
 
 export default function (props) {
 
