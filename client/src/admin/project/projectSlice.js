@@ -41,7 +41,7 @@ export const destroy = createAsyncThunk('project/destroy', async (project) => {
     }
 });
 
-export const update = createAsyncThunk('project/updateProject', async (project) => {
+export const update = createAsyncThunk('project/update', async (project) => {
     try {
         const response = await axios.put(`${config.api}/projects/${project.id}`, project, config.header());
         return response.data;
@@ -91,6 +91,19 @@ export const projectSlice = createSlice({
                 state.loading = false;
             })
             .addCase(show.rejected, (state, action) => {
+                console.error('Error fetching project:', action.error);
+                state.loading = false;
+            })
+
+            // Store
+            .addCase(store.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(store.fulfilled, (state, action) => {
+                state.project = action.payload;
+                state.loading = false;
+            })
+            .addCase(store.rejected, (state, action) => {
                 console.error('Error fetching project:', action.error);
                 state.loading = false;
             });

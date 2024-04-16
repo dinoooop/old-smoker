@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import SideNav from '../components/SideNav';
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import ProfilePic from '../components/ProfilePic';
 import "../../styles/admin.css";
 import "../../styles/responsive.css";
@@ -11,9 +11,19 @@ export default function (props) {
     const theme = useSelector((state) => state.auth.theme);
     const [viewSidenav, setViewSideNav] = useState(false);
     const themeIcon = 'sample';
+    const authUser = useSelector(state => state.auth.user)
+    const navigate = useNavigate();
 
     const toggelTheme = () => {
     }
+
+    useEffect(() => {
+
+        if (!authUser) {
+            navigate('/login')
+        }
+
+    }, [])
 
     return (
         <div className={theme}>

@@ -5,6 +5,7 @@ import { destroy, index, remove } from './projectSlice';
 import { useEffect, useState } from 'react';
 import SortArrow from '../components/SortArrow';
 import Pagination from "react-js-pagination";
+import { Link } from 'react-router-dom';
 
 export default function () {
 
@@ -19,6 +20,9 @@ export default function () {
     });
 
     useEffect(() => {
+
+       
+
         const data = Object.fromEntries(
             Object.entries(formData)
                 .filter(([key, value]) => value !== "")
@@ -82,10 +86,10 @@ export default function () {
                                     projects.map((data) => (
                                         <tr key={data.id}>
                                             <td>{data.id}</td>
-                                            <td>{data.name}</td>
+                                            <td><Link to={`/admin/projects/${data.id}`}>{data.name}</Link></td>
                                             <td className='action'>
                                                 <AppIcon onClick={handleDelete} item={data} icon="trash" />
-                                                <AppIcon to={`/projects/${data.id}`} icon="edit" />
+                                                <AppIcon to={`/admin/projects/${data.id}`} icon="edit" />
                                             </td>
                                         </tr>
                                     ))

@@ -1,25 +1,23 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import Dashboard from '../layouts/Dashboard'
 import { store } from './projectSlice'
-import Card from 'react-bootstrap/Card'
-import { Button, Form } from 'react-bootstrap'
 import { validateForm } from './projectValidation'
+import DashboardLayout from '../layouts/DashboardLayout'
 
-function ProjectCreateScreen() {
+export default function () {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const [project, setProject] = useState({
+    const [formData, setFormData] = useState({
         name: '',
         description: ''
-    });
+    })
     const [errors, setErrors] = useState({})
 
     const onChangeForm = (e) => {
-        setProject(prev => ({ ...prev, [e.target.name]: e.target.value }))
+        setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
         const error = validateForm(e.target.name, e.target.value)
         setErrors(prev => ({ ...prev, [e.target.name]: error }))
     }
@@ -27,54 +25,59 @@ function ProjectCreateScreen() {
     const handleSubmit = (e) => {
         e.preventDefault()
         const updatedErrors = {}
-        Object.entries(project).forEach(([key, value]) => {
+        Object.entries(formData).forEach(([key, value]) => {
             updatedErrors[key] = validateForm(key, value)
         })
         setErrors(prev => ({ ...prev, ...updatedErrors }))
         const allErrorsFalse = Object.values(updatedErrors).every(error => error === false)
         if (allErrorsFalse) {
-            dispatch(store(project))
-            navigate('/projects')
+            dispatch(store(formData))
+            navigate('/admin/projects')
+            
         }
     }
 
     return (
-        <Dashboard>
-            <Card className='mt-2'>
-                <Card.Body>
-                    <Card.Title>Create Project</Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted">create your new project.</Card.Subtitle>
+        <DashboardLayout>
+            <div className="row">
+                <div className="page-header">
+                    <h1>Create Project</h1>
+                </div>
+            </div>
 
-                    <Form onSubmit={handleSubmit} noValidate > 
-                        <Form.Group controlId="projectName" className='mb-3'>
-                            <Form.Label>Project Name</Form.Label>
-                            <Form.Control
-                                type="text"
-                                value={project.name}
+            <div className="row">
+                <div className='cardbody md-60'>
+                    <form onSubmit={handleSubmit}>
+
+                        <div className="form-group">
+                            <label htmlFor="email">Project Name</label>
+                            <input type="text"
+                                className="form-control input-field"
+                                id="name"
+                                value={formData.name}
                                 name="name"
                                 onChange={onChangeForm}
-                                isInvalid={!!errors.name}
                             />
-                            <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
-                        </Form.Group>
-                        <Form.Group controlId="projectDescription" className='mb-3'>
-                            <Form.Label>Description</Form.Label>
-                            <Form.Control
-                                as="textarea"
-                                rows={6}
-                                value={project.description}
+                            <div className="color-red">{errors.name}</div>
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="description">Description</label>
+                            <textarea
+                                className="form-control input-field"
+                                id="description"
+                                value={formData.description}
                                 name="description"
                                 onChange={onChangeForm}
-                                isInvalid={!!errors.description}
                             />
-                            <Form.Control.Feedback type="invalid">{errors.description}</Form.Control.Feedback>
-                        </Form.Group>
-                        <Button variant='primary' type='submit'>Save</Button>
-                    </Form>
-                </Card.Body>
-            </Card>
-        </Dashboard>
+                            <div className="color-red">{errors.description}</div>
+                        </div>
+                        <button type='submit' className="btn submit">Submit</button>
+                    </form>
+
+
+                </div>
+            </div>
+        </DashboardLayout>
     )
 }
-
-export default ProjectCreateScreen
