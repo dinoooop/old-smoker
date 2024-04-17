@@ -3,17 +3,17 @@ import axios from 'axios';
 import config from '../../config';
 
 const initialState = {
-    projects: [],
-    project: {},
+    posts: [],
+    post: {},
     loading: false,
     // pagination
     perPage: 0,
     total: 0,
 };
 
-export const index = createAsyncThunk('project/index', async (data = {}) => {
+export const index = createAsyncThunk('post/index', async (data = {}) => {
     try {
-        const response = await axios.get(`${config.api}/projects`, {
+        const response = await axios.get(`${config.api}/posts`, {
             params: data,
             headers: config.header().headers,
           });
@@ -23,48 +23,48 @@ export const index = createAsyncThunk('project/index', async (data = {}) => {
     }
 });
 
-export const show = createAsyncThunk('project/show', async (id) => {
+export const show = createAsyncThunk('post/show', async (id) => {
     try {
-        const response = await axios.get(`${config.api}/projects/${id}`, config.header());
+        const response = await axios.get(`${config.api}/posts/${id}`, config.header());
         return response.data;
     } catch (error) {
         throw error;
     }
 });
 
-export const destroy = createAsyncThunk('project/destroy', async (project) => {
+export const destroy = createAsyncThunk('post/destroy', async (post) => {
     try {
-        const response = await axios.delete(`${config.api}/projects/${project.id}`, config.header());
+        const response = await axios.delete(`${config.api}/posts/${post.id}`, config.header());
         return response.data;
     } catch (error) {
         throw error;
     }
 });
 
-export const update = createAsyncThunk('project/update', async (project) => {
+export const update = createAsyncThunk('post/update', async (post) => {
     try {
-        const response = await axios.put(`${config.api}/projects/${project.id}`, project, config.header());
+        const response = await axios.put(`${config.api}/posts/${post.id}`, post, config.header());
         return response.data;
     } catch (error) {
         throw error;
     }
 });
 
-export const store = createAsyncThunk('project/store', async (project) => {
+export const store = createAsyncThunk('post/store', async (post) => {
     try {
-        const response = await axios.post(`${config.api}/projects`, project, config.header());
+        const response = await axios.post(`${config.api}/posts`, post, config.header());
         return response.data;
     } catch (error) {
         throw error;
     }
 });
 
-export const projectSlice = createSlice({
-    name: 'project',
+export const postSlice = createSlice({
+    name: 'post',
     initialState,
     reducers: {
         remove: (state, action) => {
-            state.projects = state.projects.filter(project => project.id !== action.payload.id)
+            state.posts = state.posts.filter(post => post.id !== action.payload.id)
         },
     },
     extraReducers: (builder) => {
@@ -73,13 +73,13 @@ export const projectSlice = createSlice({
                 state.loading = true;
             })
             .addCase(index.fulfilled, (state, action) => {
-                state.projects = action.payload.data;
+                state.posts = action.payload.data;
                 state.perPage = action.payload.per_page;
                 state.total = action.payload.total;
                 state.loading = false;
             })
             .addCase(index.rejected, (state, action) => {
-                console.error('Error fetching projects:', action.error);
+                console.error('Error fetching posts:', action.error);
                 state.loading = false;
             })
 
@@ -87,11 +87,11 @@ export const projectSlice = createSlice({
                 state.loading = true;
             })
             .addCase(show.fulfilled, (state, action) => {
-                state.project = action.payload;
+                state.post = action.payload;
                 state.loading = false;
             })
             .addCase(show.rejected, (state, action) => {
-                console.error('Error fetching project:', action.error);
+                console.error('Error fetching post:', action.error);
                 state.loading = false;
             })
 
@@ -100,16 +100,16 @@ export const projectSlice = createSlice({
                 state.loading = true;
             })
             .addCase(store.fulfilled, (state, action) => {
-                state.project = action.payload;
+                state.post = action.payload;
                 state.loading = false;
             })
             .addCase(store.rejected, (state, action) => {
-                console.error('Error fetching project:', action.error);
+                console.error('Error fetching post:', action.error);
                 state.loading = false;
             });
     },
 })
 
-export const { remove } = projectSlice.actions
+export const { remove } = postSlice.actions
 
-export default projectSlice.reducer
+export default postSlice.reducer

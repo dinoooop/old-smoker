@@ -87,20 +87,13 @@ i {
 
 h1 {
     margin-bottom: 1rem;
-    color: var(--white);
     line-height: 2rem;
 }
 
-h2 {
-    color: var(--white);
-}
 
-h3 {
-    color: var(--vibrant);
-}
 
 h4 {
-    color: var(--vibrant);
+    
     font-weight: 300;
 }
 
@@ -132,10 +125,16 @@ li {
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem;
+    position: sticky;
+    top: 0;
+    background-color: var(--color-2);
+    z-index: 1;
+    box-shadow: 0 0 2rem var(--color-1);
+
 }
 
 .content {
-    padding: 0 3rem 2rem 3rem;
+    padding: 2rem 3rem;
 }
 
 .strong {
@@ -334,10 +333,6 @@ i.icon.vibrant {
     width: 7rem;
 }
 
-.page-header {
-    margin-bottom: 1rem;
-}
-
 .other-actions {
     display: flex;
     justify-content: end;
@@ -523,11 +518,8 @@ i.icon.vibrant {
 .cardbody {
     background-color: var(--color-2);
     padding: 1rem;
-    margin-top: 1rem;
-    width: 100%;
     overflow-x: scroll;
     border-radius: 0.5rem;
-
 }
 
 .cardbody-50 {
@@ -689,10 +681,6 @@ ul.pagination {
 .input-display label {
     font-weight: bolder;
     display: block;
-}
-
-.input-label {
-    display: inline-block;
 }
 
 .server-message {
@@ -1084,4 +1072,18 @@ select {
 
 .my-2 {
     margin: 2rem 0;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+.page-header h1 {
+    margin: 0;
+}
+
+td .fa-circle-check {
+    color: var(--success);
 }

@@ -8,6 +8,7 @@
 .md-60 {
     width: 60%;
 }
+
 @media screen and (min-width: 1400px) {
     .container {
         width: 1320px;

@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { store } from './projectSlice'
-import { validateForm } from './projectValidation'
+import { store } from './postSlice'
+import { validateForm } from './postValidation'
 import DashboardLayout from '../layouts/DashboardLayout'
 
 export default function () {
@@ -12,12 +12,18 @@ export default function () {
 
     const [formData, setFormData] = useState({
         name: '',
-        description: ''
+        description: '',
+        status: 0
     })
     const [errors, setErrors] = useState({})
 
     const onChangeForm = (e) => {
-        setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
+        if (e.target.type === 'checkbox') {
+            setFormData(prev => ({ ...prev, [e.target.name]: e.target.checked }))
+        } else {
+            setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
+        }
+
         const error = validateForm(e.target.name, e.target.value)
         setErrors(prev => ({ ...prev, [e.target.name]: error }))
     }
@@ -32,16 +38,17 @@ export default function () {
         const allErrorsFalse = Object.values(updatedErrors).every(error => error === false)
         if (allErrorsFalse) {
             dispatch(store(formData))
-            navigate('/admin/projects')
+            navigate('/admin/posts')
         }
     }
 
+    const checked = formData.status == 1 ? 'checked' : '';
 
-
+    console.log("post create")
     return (
         <DashboardLayout>
             <div className="page-header">
-                <h1>Create Project</h1>
+                <h1>Create Post</h1>
             </div>
 
             <div className="row">
@@ -49,7 +56,7 @@ export default function () {
                     <form onSubmit={handleSubmit}>
 
                         <div className="form-group">
-                            <label htmlFor="email">Project Name</label>
+                            <label htmlFor="email">Post Name</label>
                             <input type="text"
                                 className="form-control input-field"
                                 id="name"
@@ -71,8 +78,23 @@ export default function () {
                             />
                             <div className="color-red">{errors.description}</div>
                         </div>
+
+                        <div className="form-group">
+                            <label className='checkbox-control'>
+                                <input
+                                    type="checkbox"
+                                    id="status"
+                                    value={1}
+                                    name="status"
+                                    onChange={onChangeForm}
+                                    
+                                /> Status
+                            </label>
+                            <div className="color-red">{errors.status}</div>
+                        </div>
+
                         <button type='submit' className="btn submit">Submit</button>
-                        <Link to="/admin/projects" className="btn">Cancel</Link>
+                        <Link to="/admin/posts" className="btn">Cancel</Link>
                     </form>
 
 

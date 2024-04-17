@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { show, update } from './projectSlice'
 import { validateForm } from './projectValidation'
 import DashboardLayout from '../layouts/DashboardLayout'
@@ -50,14 +50,12 @@ export default function () {
 
     return (
         <DashboardLayout>
-            <div className="row">
-                <div className="page-header">
-                    <h1>Edit Project</h1>
-                </div>
+            <div className="page-header">
+                <h1>Edit Project</h1>
             </div>
 
             <div className="row">
-                <div className='cardbody md-60'>
+                <div className='cardbody col-lg-6'>
                     <form onSubmit={handleSubmit}>
 
                         <div className="form-group">
@@ -85,6 +83,8 @@ export default function () {
                         </div>
 
                         <button type='submit' className="btn submit">Submit</button>
+                        <Link to="/admin/projects" className="btn">Cancel</Link>
+
                     </form>
                 </div>
             </div>

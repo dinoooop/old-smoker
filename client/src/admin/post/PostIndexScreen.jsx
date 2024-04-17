@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import AppIcon from '../components/AppIcon';
 import DashboardLayout from '../layouts/DashboardLayout';
-import { destroy, index, remove } from './projectSlice';
+import { destroy, index, remove } from './postSlice';
 import { useEffect, useState } from 'react';
 import SortArrow from '../components/SortArrow';
 import Pagination from "react-js-pagination";
@@ -11,7 +11,7 @@ export default function () {
 
     const dispatch = useDispatch()
 
-    const { projects, perPage, total } = useSelector(state => state.project)
+    const { posts, perPage, total } = useSelector(state => state.post)
     const [formData, setFormData] = useState({
         search: "",
         so: "",
@@ -28,9 +28,9 @@ export default function () {
         dispatch(index(data))
     }, [dispatch, formData])
 
-    const handleDelete = (project) => {
-        dispatch(remove(project))
-        dispatch(destroy(project))
+    const handleDelete = (post) => {
+        dispatch(remove(post))
+        dispatch(destroy(post))
     }
 
     const handleSearch = e => {
@@ -48,7 +48,7 @@ export default function () {
     return (
         <DashboardLayout>
             <div className="page-header">
-                <h1>Projects</h1>
+                <h1>Posts</h1>
                 <div className="other-actions">
                     <AppIcon to="create" icon="add" />
                     <div className="search">
@@ -71,19 +71,24 @@ export default function () {
                             <thead>
                                 <tr>
                                     <th># <SortArrow onClick={handleSort} column="id" /></th>
-                                    <th>Project Name <SortArrow onClick={handleSort} column="name" /></th>
+                                    <th>Post Name <SortArrow onClick={handleSort} column="name" /></th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {
-                                    projects.map((data) => (
+                                    posts.map((data) => (
                                         <tr key={data.id}>
                                             <td>{data.id}</td>
-                                            <td><Link to={`/admin/projects/${data.id}`}>{data.name}</Link></td>
+                                            <td><Link to={`/admin/posts/${data.id}`}>{data.name}</Link></td>
+                                            <td>{data.status ? 
+                                            <i class="fa-regular fa-circle-check"></i>:
+                                            <i class="fa-regular fa-circle-xmark"></i>
+                                            }</td>
                                             <td className='action'>
                                                 <AppIcon onClick={handleDelete} item={data} icon="trash" />
-                                                <AppIcon to={`/admin/projects/${data.id}`} icon="edit" />
+                                                <AppIcon to={`/admin/posts/${data.id}`} icon="edit" />
                                             </td>
                                         </tr>
                                     ))
