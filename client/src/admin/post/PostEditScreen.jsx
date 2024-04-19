@@ -11,6 +11,7 @@ export default function () {
     const navigate = useNavigate()
     const params = useParams()
 
+
     const stateFormData = useSelector(state => state.post)
     const [formData, setFormData] = useState(stateFormData.post || {})
     const [errors, setErrors] = useState({})
@@ -98,6 +99,8 @@ export default function () {
                             </label>
                             <div className="color-red">{errors.status}</div>
                         </div>
+
+                       
 
                         <button type='submit' className="btn submit">Submit</button>
                         <Link to="/admin/posts" className="btn">Cancel</Link>
